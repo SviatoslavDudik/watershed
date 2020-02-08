@@ -2,6 +2,7 @@
 #define __LISTE_H__
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -21,6 +22,7 @@ typedef struct {
 liste *new_liste();
 void liste_add_tete(liste *l, uint32_t i, uint32_t j);
 maillon *liste_rem_tete(liste *l);
+_Bool liste_est_vide(liste *l);
 void liste_free(liste *l);
 
 #endif

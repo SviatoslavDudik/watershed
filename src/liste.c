@@ -30,7 +30,7 @@ void liste_add_tete(liste *l, uint32_t i, uint32_t j) {
 	m = new_maillon(i, j);
 	m->suivant = l->tete;
 	l->tete = m;
-	if (l->taille == 0) {
+	if (liste_est_vide(l)) {
 		l->queue = m;
 	}
 	l->taille += 1;
@@ -38,7 +38,7 @@ void liste_add_tete(liste *l, uint32_t i, uint32_t j) {
 
 maillon *liste_rem_tete(liste *l) {
 	maillon *p;
-	if (l->taille == 0) {
+	if (liste_est_vide(l)) {
 		assert(0);
 	}
 	p = l->tete;
@@ -50,8 +50,12 @@ maillon *liste_rem_tete(liste *l) {
 	return p;
 }
 
+_Bool liste_est_vide(liste *l) {
+	return (l->taille == 0);
+}
+
 void liste_free(liste *l) {
-	while (l->taille > 0)
+	while (!liste_est_vide(l))
 		free(liste_rem_tete(l));
 	free(l);
 }

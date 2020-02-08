@@ -11,10 +11,10 @@
 
 typedef liste *hashtable[HASHSIZE];
 
-
 hashtable *new_hash();
 void hash_add(hashtable *h, uint32_t i, uint32_t j, uint8_t grad);
 maillon *hash_rem(hashtable *h, uint8_t grad);
+int16_t hash_first_not_empty(hashtable *h);
 void hash_free(hashtable *h);
 
 #endif

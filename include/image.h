@@ -17,5 +17,6 @@ myimage LireImage(char *nom_fichier);
 void EcrireImage(myimage img, char *nom_fichier);
 myimage AllouerImage(uint32_t hauteur, uint32_t largeur);
 void LibererImage(myimage img);
+void EcrireImageContour(myimage img, myimage contour, char *nom_fichier);
 
 #endif
