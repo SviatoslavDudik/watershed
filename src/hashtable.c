@@ -1,5 +1,6 @@
 #include "hashtable.h"
 
+/* crée une nouvelle table de hachage */
 hashtable *new_hash() {
 	uint16_t i;
 	hashtable *h;
@@ -13,14 +14,19 @@ hashtable *new_hash() {
 	return h;
 }
 
+/* ajoute dans la table de hachage h un maillon avec les données i,j.
+ * La liste choisie à le numéro grad  */
 void hash_add(hashtable *h, uint32_t i, uint32_t j, uint8_t grad) {
 	liste_add_tete((*h)[grad], i, j);
 }
 
+/* renvoie le premier maillon contenu dans la liste numéro grad */
 maillon *hash_rem(hashtable *h, uint8_t grad) {
 	return liste_rem_tete((*h)[grad]);
 }
 
+/* La fonction renvoie le numéro de la première liste non vide.
+ * Si la table de hachage est vide, alors -1 est renvoyé */
 int16_t hash_first_not_empty(hashtable *h) {
 	int16_t i;
 	for (i = 0; i<HASHSIZE; i++) {
@@ -30,7 +36,7 @@ int16_t hash_first_not_empty(hashtable *h) {
 	return -1;
 }
 
-
+/* libère la table de hachage h de la mémoire */
 void hash_free(hashtable *h) {
 	uint16_t i;
 	for (i = 0; i<HASHSIZE; i++)

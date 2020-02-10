@@ -1,5 +1,6 @@
 #include "liste.h"
 
+/* crée une nouvelle liste chaînée */
 liste *new_liste() {
 	liste *l;
 	l = (liste*) malloc(sizeof(liste));
@@ -13,6 +14,7 @@ liste *new_liste() {
 	return l;
 }
 
+/* crée un nouveau maillon contenant i et j comme données */
 maillon *new_maillon(uint32_t i, uint32_t j) {
 	maillon *m;
 	m = (maillon*) malloc(sizeof(maillon));
@@ -25,6 +27,7 @@ maillon *new_maillon(uint32_t i, uint32_t j) {
 	return m;
 }
 
+/* ajoute un maillon avec les données i,j à la tête de la liste l */
 void liste_add_tete(liste *l, uint32_t i, uint32_t j) {
 	maillon *m;
 	m = new_maillon(i, j);
@@ -36,6 +39,9 @@ void liste_add_tete(liste *l, uint32_t i, uint32_t j) {
 	l->taille += 1;
 }
 
+/* La fonction supprime la tête de la liste l et renvoie le
+ * maillon supprimé. Le maillon renvoyé doit être libérer avec la
+ * fonction free */
 maillon *liste_rem_tete(liste *l) {
 	maillon *p;
 	if (liste_est_vide(l)) {
@@ -50,10 +56,12 @@ maillon *liste_rem_tete(liste *l) {
 	return p;
 }
 
+/* renvoie vrai si liste l est vide, faux sinon */
 _Bool liste_est_vide(liste *l) {
 	return (l->taille == 0);
 }
 
+/* libère la liste l de la mémoire */
 void liste_free(liste *l) {
 	while (!liste_est_vide(l))
 		free(liste_rem_tete(l));

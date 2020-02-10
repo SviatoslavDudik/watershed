@@ -3,6 +3,11 @@
 uint8_t ValeurMax(myimage img, uint32_t i, uint32_t j, uint16_t rayon);
 uint8_t ValeurMin(myimage img, uint32_t i, uint32_t j, uint16_t rayon);
 
+/* La fonction calcule le gradient de l'image img.
+ * Si le rayon = 0 le gradient est toujours nul,
+ * plus le rayon est grand plus le gradient sera flou.
+ * Valeur de retour: l'image du gradient
+ */
 myimage CalculerGradient(myimage img, uint16_t rayon) {
 	uint32_t i, j;
 	myimage res;
@@ -14,15 +19,23 @@ myimage CalculerGradient(myimage img, uint16_t rayon) {
 	return res;
 }
 
+/* La fonction calcule la ligne de partage des eaux.
+ * Le paramètre gradient doit être le gradient d'une image.
+ * Le paramètre m est l'image des marqueurs.
+ * La fonction stocke le résultat dans m
+ */
 void CalculerLPE(myimage gradient, myimage m) {
 	hashtable *h;
 	maillon *pixel;
 	uint32_t i, j, k, l;
 	int16_t grad;
+	/* la taille de l'image des marqueurs ne peut pas dépasser la taille du gradient */
 	if (m.largeur > gradient.largeur || m.hauteur > gradient.hauteur) {
 		fprintf(stderr, "Les marqueurs ne peuvent pas excéder la taille de l'image\n");
 		assert(0);
 	}
+	/* la table de hachage contiendra les points à traiter
+	 * la fonction de hachage sera le gradient du point */
 	h = new_hash();
 	for (i = 0; i<m.hauteur; i++) {
 		for (j = 0; j<m.largeur; j++) {
@@ -31,10 +44,12 @@ void CalculerLPE(myimage gradient, myimage m) {
 		}
 	}
 	while ((grad=hash_first_not_empty(h)) >= 0) {
+		/* on récupère le pixel de plus petit gradient (grad) */
 		pixel = hash_rem(h, grad);
 		i = pixel->i;
 		j = pixel->j;
 		free(pixel);
+		/* on colore les pixels autour */
 		k = i>0 ? i-1 : i;
 		while (k <= i+1 && k < m.hauteur) {
 			l = j>0 ? j-1 : j;
@@ -51,6 +66,7 @@ void CalculerLPE(myimage gradient, myimage m) {
 	hash_free(h);
 }
 
+/* retourne la valeur max atteinte dans le rayon autour du point (i,j) */
 uint8_t ValeurMax(myimage img, uint32_t i, uint32_t j, uint16_t rayon) {
 	uint32_t k, l;
 	uint8_t max;
@@ -71,6 +87,7 @@ uint8_t ValeurMax(myimage img, uint32_t i, uint32_t j, uint16_t rayon) {
 	return max;
 }
 
+/* retourne la valeur min atteinte dans le rayon autour du point (i,j) */
 uint8_t ValeurMin(myimage img, uint32_t i, uint32_t j, uint16_t rayon) {
 	uint32_t k, l;
 	uint8_t min;
